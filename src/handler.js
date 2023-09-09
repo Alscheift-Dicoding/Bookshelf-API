@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
-const getCurrentDateString = (a) => new Date().toISOString();
+const getCurrentDateString = () => new Date().toISOString();
 const findBook = (bookId) => books.find((book) => book.id === bookId);
 const findBookIndex = (bookId) => books.findIndex((book) => book.id === bookId);
 
@@ -76,9 +75,6 @@ const addBookHandler = (request, h) => {
 const getBooksHandler = (request, h) => {
     const { name, reading, finished } = request.query;
     let fBooks = books.map((book) => book);
-    console.log(name);
-    console.log(reading);
-    console.log(finished);
     // filter by query
     if (name) fBooks = fBooks.filter((b) => b.name.toLowerCase().includes(name.toLowerCase()));
     if (reading) fBooks = fBooks.filter((b) => Number(b.reading) === Number(reading));
