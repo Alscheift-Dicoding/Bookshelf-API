@@ -4,6 +4,7 @@ const books = require('./books');
 
 const getCurrentDateString = (a) => new Date().toISOString();
 const findBook = (bookId) => books.find((book) => book.id === bookId);
+const findBookIndex = (bookId) => books.findIndex((book) => book.id === bookId);
 
 function createBook(bookData) {
     const {
@@ -140,7 +141,21 @@ const editBookHandler = (request, h) => {
 
 // Kriteria 7 : API dapat menghapus buku
 const deleteBookHandler = (request, h) => {
+    const { bookId } = request.params;
+    const bookIndex = findBookIndex(bookId);
 
+    if (bookIndex !== -1) {
+        books.splice(bookIndex, 1);
+        return h.response({
+            status: 'success',
+            message: 'Buku berhasil dihapus',
+        }).code(200);
+    }
+
+    return h.response({
+        status: 'fail',
+        message: 'Buku gagal dihapus. Id tidak ditemukan',
+    }).code(404);
 };
 
 module.exports = {
