@@ -4,7 +4,8 @@
   "description": "Submission kelas \"Belajar Membuat Aplikasi Back-End untuk Pemula dengan Google Cloud\" Dicoding",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "start-dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/Alscheift-Dicoding/Bookshelf-API/issues"
   },
-  "homepage": "https://github.com/Alscheift-Dicoding/Bookshelf-API#readme"
+  "homepage": "https://github.com/Alscheift-Dicoding/Bookshelf-API#readme",
+  "devDependencies": {
+    "eslint": "^8.49.0",
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.3.2",
+    "nanoid": "^3.3.6"
+  }
 }
