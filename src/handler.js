@@ -103,7 +103,39 @@ const getBookDetailHandler = (request, h) => {
 
 // Kriteria 6 : API dapat mengubah data buku
 const editBookHandler = (request, h) => {
+    const newBookData = request.payload;
+    const { bookId } = request.params;
 
+    const book = findBook(bookId);
+
+    if (!newBookData.name) {
+        return h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. Mohon isi nama buku',
+        }).code(400);
+    }
+
+    if (newBookData.pageCount < newBookData.readPage) {
+        return h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+        }).code(400);
+    }
+
+    if (!book) {
+        return h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. Id tidak ditemukan',
+        }).code(404);
+    }
+
+    // updating book
+    (Object.entries(newBookData)).forEach(([key, value]) => { book[key] = value; });
+
+    return h.response({
+        status: 'success',
+        message: 'Buku berhasil diperbarui',
+    }).code(200);
 };
 
 // Kriteria 7 : API dapat menghapus buku
