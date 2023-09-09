@@ -73,16 +73,28 @@ const addBookHandler = (request, h) => {
 };
 
 // Kriteria 4 : API dapat menampilkan seluruh buku
-const getBooksHandler = (request, h) => h.response({
-    status: 'success',
-    data: {
-        books: books.map((book) => ({
-            id: book.id,
-            name: book.name,
-            publisher: book.publisher,
-        })),
-    },
-}).code(200);
+const getBooksHandler = (request, h) => {
+    const { name, reading, finished } = request.query;
+    let fBooks = books.map((book) => book);
+    console.log(name);
+    console.log(reading);
+    console.log(finished);
+    // filter by query
+    if (name) fBooks = fBooks.filter((b) => b.name.toLowerCase().includes(name.toLowerCase()));
+    if (reading) fBooks = fBooks.filter((b) => Number(b.reading) === Number(reading));
+    if (finished) fBooks = fBooks.filter((b) => Number(b.finished) === Number(finished));
+
+    return h.response({
+        status: 'success',
+        data: {
+            books: fBooks.map((book) => ({
+                id: book.id,
+                name: book.name,
+                publisher: book.publisher,
+            })),
+        },
+    }).code(200);
+};
 
 // Kriteria 5 : API dapat menampilkan detail buku
 const getBookDetailHandler = (request, h) => {
